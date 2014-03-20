@@ -60,7 +60,7 @@ int headingInt;
 // magdec is your magnetic declination, which is the delta between true and magnetic north
 // Enter this as a positive or negative number
 // You can determine your local magnetic declination here: http://www.ngdc.noaa.gov/geomag-web/#declination
-int magdec = 1;
+int magdec = -11;
 
 // Adafruit GPS work
 // This wiring uses pins 5 and 3. Keep in mind these pins won't work on the Arduino Yun, and neither will pins 0,1 on the Yun.
