@@ -51,6 +51,9 @@
 
 //HMC6532 Compass settings
 // This code uses the Sparkfun HMC6532 from here: https://www.sparkfun.com/products/7915
+// Here's a good tutorial for wiring the compass: http://bildr.org/2011/01/hmc6352/
+// Wire the sda pin to the analog 4 on the Arduino UNO
+// Wire the scl pin to the analog 5 on the Arduino UNO
 const int sensorPin = 0;    // the pin that the potmeter is attached to
 int sensorValue     = 0;    // store the value coming from the sensor
 int HMC6352SlaveAddress = 0x42;
