@@ -33,11 +33,11 @@
 
 // Pololu VNH5019 Controller references
 // We use this motor controller- it's overkill but works great and can handle 
- //really big motors, plus it can handle the 12V directly and drop down to the 
- // 9V the Arduino UNO needs.  
- // Beware! Un-jumper the voltage pin if you're trying to use this with an 
- // Arduino Yun- this shield will fry a Yun with 9V instead of the Yun's 5V.
- // http://www.pololu.com/product/2502
+//really big motors, plus it can handle the 12V directly and drop down to the 
+// 9V the Arduino UNO needs.  
+// Beware! Un-jumper the voltage pin if you're trying to use this with an 
+// Arduino Yun- this shield will fry a Yun with 9V instead of the Yun's 5V.
+// http://www.pololu.com/product/2502
 #include "DualVNH5019MotorShield.h"
 
 // Adafruit library references
@@ -391,7 +391,7 @@ void loop()                     // The main loop
   fltDayDecimal = fltHrs + fltMins;
 
 
-// Julian Day calculated thanks to this Instructibles article: http://www.instructables.com/id/Making-a-Mayan-Tzolkin-Calendar/step5/Arduino-code/
+  // Julian Day calculated thanks to this Instructibles article: http://www.instructables.com/id/Making-a-Mayan-Tzolkin-Calendar/step5/Arduino-code/
   centuries = intYear/100;
   leaps = centuries/4;                            
   leapDays = 2 - centuries + leaps;         // note is negative!!
@@ -400,7 +400,7 @@ void loop()                     // The main loop
   JulianResult = leapDays + GPS.day + monthDays + yearDays -1524.5;
   JulianDay = (float)JulianResult + fltDayDecimal;
   JulianCentury = (JulianDay-2451545)/36525;
-  
+
   // Really, don't mess with these
   GeomMeanLongSun =fmod(280.46646 + JulianCentury * (36000.76983 + JulianCentury * 0.0003032), 360);
   GeomMeanAnomSun = (357.52911 + JulianCentury * (35999.05029 - 0.0001537 * JulianCentury));
@@ -429,7 +429,7 @@ void loop()                     // The main loop
   SolarZenithAngle = degrees(acos(sin(radians(Latitude))*sin(radians(SunDeclin))+cos(radians(Latitude))*cos(radians(SunDeclin))*cos(radians(HourAngle))));
   SolarElevation = 90-SolarZenithAngle;
 
-// Compensate for atmospheric refraction- this has the greatest influence on the angle of the sun when it's closer to the horizon
+  // Compensate for atmospheric refraction- this has the greatest influence on the angle of the sun when it's closer to the horizon
   if (SolarElevation>85) {
     ApproxAtmosRefraction =0;
   }
@@ -576,52 +576,52 @@ void loop()                     // The main loop
   // In this section we're rotating the motor number 2 either positive or negative.
   // First make sure the angle of the sun is between 0 and 90 degrees
   //if (((headingInt - SolarAzimuth) < 2 ) ^ ((SolarAzimuth - headingInt) < 2))
-  if (headingInt == 0))
-  {
-  Serial.println("Heading is 0. Check your compass");
+  if (headingInt == 0) {
+    Serial.println("Heading is 0. Check your compass");
   }
   if (headingInt != 0)  {
-  
-  if (headingInt == round(SolarAzimuth))
-  {
-    //Heading is good, no need to move
-    if (DEBUGPrint == true) {
-      Serial.println("Motor: No Movement.");
-    }
-  }
-  else
-  {
 
-    if (CorrectedSolarElevation > 0)
+    if (headingInt == round(SolarAzimuth))
     {
-      if (headingInt < SolarAzimuth)
-      {
-        while(((SolarAzimuth-headingInt) <2) ^ ((SolarAzimuth-headingInt) > -2))
-        {
-          rotatePos();
-        }
-        md.setM2Speed(0);
-        if (DEBUGPrint == true) {
-          Serial.println("Motor: Positive Stop.");
-        }
+      //Heading is good, no need to move
+      if (DEBUGPrint == true) {
+        Serial.println("Motor: No Movement.");
       }
-      else if (headingInt > SolarAzimuth)
-      {
-        while(((SolarAzimuth-headingInt) <2) ^ ((SolarAzimuth-headingInt) > -2))
-        {
-          rotateNeg();
-        }
-        md.setM2Speed(0);
+    }
+    else
+    {
 
-        if (DEBUGPrint == true) {
-          Serial.println("Motor: Negative Stop.");
+      if (CorrectedSolarElevation > 0)
+      {
+        if (headingInt < SolarAzimuth)
+        {
+          while(((SolarAzimuth-headingInt) <2) ^ ((SolarAzimuth-headingInt) > -2))
+          {
+            rotatePos();
+          }
+          md.setM2Speed(0);
+          if (DEBUGPrint == true) {
+            Serial.println("Motor: Positive Stop.");
+          }
+        }
+        else if (headingInt > SolarAzimuth)
+        {
+          while(((SolarAzimuth-headingInt) <2) ^ ((SolarAzimuth-headingInt) > -2))
+          {
+            rotateNeg();
+          }
+          md.setM2Speed(0);
+
+          if (DEBUGPrint == true) {
+            Serial.println("Motor: Negative Stop.");
+          }
         }
       }
     }
-  }
   }
   delay(120000); //Delay 2 minutes - you can set this to something faster for debugging, otherwise the sun usually doesn't move in the sky that fast :)
 }
+
 
 
 
